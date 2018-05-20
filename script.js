@@ -3,10 +3,28 @@ var point = document.getElementById("point");
 
 var maxpoint = 110;
 var count = 0;
-var power = 1; 
+var power = 5; 
 var brick = "╬╩╦╣╠╝╚╗╔║═B";
 
 var map = [
+	['╔','═','═','═','═','═','═','═','═','═','═','═','═','═','╗'],
+	['║',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','║'],
+	['║',' ','═','═','═','═','═','╗',' ','║',' ','╔','═',' ','║'],
+	['║',' ',' ',' ',' ',' ',' ','║',' ','║',' ','║',' ',' ','║'],
+	['║',' ',' ',' ',' ',' ',' ','║',' ','║',' ','║',' ',' ','║'],
+	['╠','═','═','═','═','═','═','╝',' ','║',' ','║',' ',' ','║'],
+	['║',' ',' ',' ',' ',' ',' ',' ',' ','║',' ','║',' ',' ','║'],
+	['║',' ','═','═','═','═','═','═','═','╝',' ','╚','═',' ','║'],
+	['║',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','║'],
+	['║',' ','═','═','═','═','═','═','═','═',' ','═','═',' ','║'],
+	['║',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','║'],
+	['║',' ','╔','═','═','═','═','═','═','═',' ','═','═',' ','║'],
+	['║',' ','║',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','║'],
+	['║',' ',' ',' ',' ',' ',' ','║',' ',' ',' ',' ',' ',' ','║'],
+	['╚','═','═','═','═','═','═','╩','═','═','═','═','═','═','╝']	
+];
+
+var bomb_map = [
 	['╔','═','═','═','═','═','═','═','═','═','═','═','═','═','╗'],
 	['║',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','║'],
 	['║',' ','═','═','═','═','═','╗',' ','║',' ','╔','═',' ','║'],
@@ -87,16 +105,16 @@ function plant_bomb(pos_x, pos_y) {
 		var explode = setTimeout (function() {
 			map[pos_x][pos_y] = 'X';
 			for (var i = 1; i <= power; i++){
-				if (brick.indexOf(map[bbman.pos_x + i][bbman.pos_y + 0]) < 0){
+				if (brick.indexOf(map[pos_x + i][pos_y + 0]) < 0){
 					map[pos_x+i][pos_y] = 'X';
 				}
-				if (brick.indexOf(map[bbman.pos_x - i][bbman.pos_y + 0]) < 0){
+				if (brick.indexOf(map[pos_x - i][pos_y + 0]) < 0){
 					map[pos_x-i][pos_y] = 'X';
 				}
-				if (brick.indexOf(map[bbman.pos_x + 0][bbman.pos_y + i]) < 0){
+				if (brick.indexOf(map[pos_x + 0][pos_y + i]) < 0){
 					map[pos_x][pos_y+i] = 'X';
 				}
-				if (brick.indexOf(map[bbman.pos_x + 0][bbman.pos_y - i]) < 0){
+				if (brick.indexOf(map[pos_x + 0][pos_y - i]) < 0){
 					map[pos_x][pos_y-i] = 'X';
 				}
 			}
@@ -104,16 +122,16 @@ function plant_bomb(pos_x, pos_y) {
 			var over = setTimeout(function() {
 				map[pos_x][pos_y] = ' ';
 				for (var i = 1; i <= power; i++){
-					if (brick.indexOf(map[bbman.pos_x + i][bbman.pos_y + 0]) < 0){
+					if (brick.indexOf(map[pos_x + i][pos_y + 0]) < 0){
 						map[pos_x+i][pos_y] = ' ';
 					}
-					if (brick.indexOf(map[bbman.pos_x - i][bbman.pos_y + 0]) < 0){
+					if (brick.indexOf(map[pos_x - i][pos_y + 0]) < 0){
 						map[pos_x-i][pos_y] = ' ';
 					}
-					if (brick.indexOf(map[bbman.pos_x + 0][bbman.pos_y + i]) < 0){
+					if (brick.indexOf(map[pos_x + 0][pos_y + i]) < 0){
 						map[pos_x][pos_y+i] = ' ';
 					}
-					if (brick.indexOf(map[bbman.pos_x + 0][bbman.pos_y - i]) < 0){
+					if (brick.indexOf(map[pos_x + 0][pos_y - i]) < 0){
 						map[pos_x][pos_y-i] = ' ';
 					}
 				}
@@ -194,7 +212,7 @@ function start() {
 	// 		setTimeout(function(){ alert("YOU WIN! FUCK!!!"); }, 500);
 	// 	}
 	// }
-	plant_bomb(12,1);
+	plant_bomb(6,8);
 }
 
 function display() {
