@@ -3,6 +3,8 @@ var point = document.getElementById("point");
 
 var maxpoint = 110;
 var count = 0;
+var power = 1; 
+var brick = "╬╩╦╣╠╝╚╗╔║═B";
 
 var map = [
 	['╔','═','═','═','═','═','═','═','═','═','═','═','═','═','╗'],
@@ -22,31 +24,11 @@ var map = [
 	['╚','═','═','═','═','═','═','╩','═','═','═','═','═','═','╝']	
 ];
 
-var bomb_map = [
-	['╔','═','═','═','═','═','═','═','═','═','═','═','═','═','╗'],
-	['║',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','║'],
-	['║',' ','═','═','═','═','═','╗',' ','║',' ','╔','═',' ','║'],
-	['║',' ',' ',' ',' ',' ',' ','║',' ','║',' ','║',' ',' ','║'],
-	['║',' ',' ',' ',' ',' ',' ','║',' ','║',' ','║',' ',' ','║'],
-	['╠','═','═','═','═','═','═','╝',' ','║',' ','║',' ',' ','║'],
-	['║',' ',' ',' ',' ',' ',' ',' ',' ','║',' ','║',' ',' ','║'],
-	['║',' ','═','═','═','═','═','═','═','╝',' ','╚','═',' ','║'],
-	['║',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','║'],
-	['║',' ','═','═','═','═','═','═','═','═',' ','═','═',' ','║'],
-	['║',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','║'],
-	['║',' ','╔','═','═','═','═','═','═','═',' ','═','═',' ','║'],
-	['║',' ','║',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','║'],
-	['║',' ',' ',' ',' ',' ',' ','║',' ',' ',' ',' ',' ',' ','║'],
-	['╚','═','═','═','═','═','═','╩','═','═','═','═','═','═','╝']
-];
-
 
 map[1][1] = '☺';
 map[13][13] = '☻';
 
-var brick = "╬╩╦╣╠╝╚╗╔║═B";
 
-var output = '';
 
 var  bbman = {
 	pos_x: 1, 
@@ -98,24 +80,43 @@ var ghost = {
 };
 
 function plant_bomb(pos_x, pos_y) {
-		bomb_map[pos_x][pos_y] = 1;
-		update_bomb();
+		var x = pos_x;
+		var y = pos_y;
+		map[pos_x][pos_y] = 'B';
 		display();
 		var explode = setTimeout (function() {
-			bomb_map[pos_x][pos_y] = 0.5;
-			bomb_map[pos_x+1][pos_y] = 0.5;
-			bomb_map[pos_x-1][pos_y] = 0.5;
-			bomb_map[pos_x][pos_y+1] = 0.5;
-			bomb_map[pos_x][pos_y-1] = 0.5;
-			update_bomb();
+			map[pos_x][pos_y] = 'X';
+			for (var i = 1; i <= power; i++){
+				if (brick.indexOf(map[bbman.pos_x + i][bbman.pos_y + 0]) < 0){
+					map[pos_x+i][pos_y] = 'X';
+				}
+				if (brick.indexOf(map[bbman.pos_x - i][bbman.pos_y + 0]) < 0){
+					map[pos_x-i][pos_y] = 'X';
+				}
+				if (brick.indexOf(map[bbman.pos_x + 0][bbman.pos_y + i]) < 0){
+					map[pos_x][pos_y+i] = 'X';
+				}
+				if (brick.indexOf(map[bbman.pos_x + 0][bbman.pos_y - i]) < 0){
+					map[pos_x][pos_y-i] = 'X';
+				}
+			}
 			display();
 			var over = setTimeout(function() {
-				bomb_map[pos_x][pos_y] = 0;
-				bomb_map[pos_x+1][pos_y] = 0;
-				bomb_map[pos_x-1][pos_y] = 0;
-				bomb_map[pos_x][pos_y+1] = 0;
-				bomb_map[pos_x][pos_y-1] = 0;
-				update_bomb();
+				map[pos_x][pos_y] = ' ';
+				for (var i = 1; i <= power; i++){
+					if (brick.indexOf(map[bbman.pos_x + i][bbman.pos_y + 0]) < 0){
+						map[pos_x+i][pos_y] = ' ';
+					}
+					if (brick.indexOf(map[bbman.pos_x - i][bbman.pos_y + 0]) < 0){
+						map[pos_x-i][pos_y] = ' ';
+					}
+					if (brick.indexOf(map[bbman.pos_x + 0][bbman.pos_y + i]) < 0){
+						map[pos_x][pos_y+i] = ' ';
+					}
+					if (brick.indexOf(map[bbman.pos_x + 0][bbman.pos_y - i]) < 0){
+						map[pos_x][pos_y-i] = ' ';
+					}
+				}
 				display();
 			}, 500);
 			clearTimeout(explode);
@@ -193,6 +194,7 @@ function start() {
 	// 		setTimeout(function(){ alert("YOU WIN! FUCK!!!"); }, 500);
 	// 	}
 	// }
+	plant_bomb(12,1);
 }
 
 function display() {
@@ -200,6 +202,17 @@ function display() {
 	for (var i = 0; i < 15; i++) {
 		for (var j = 0; j < 15; j++) {
 			output += map[i][j];
+		}
+		output += '<br>';
+	}	
+	nam.innerHTML = output;
+}
+
+function display_bomb() {
+	output = '';
+	for (var i = 0; i < 15; i++) {
+		for (var j = 0; j < 15; j++) {
+			output += bomb_map[i][j];
 		}
 		output += '<br>';
 	}	
