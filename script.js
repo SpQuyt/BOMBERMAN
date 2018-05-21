@@ -54,10 +54,18 @@ var  bbman = {
 	dx: 1,
 	dy: 0,
 	move: function() {
-		map[this.pos_x][this.pos_y] = ' ';
-		this.pos_x += this.dx;
-		this.pos_y += this.dy;
-		map[this.pos_x][this.pos_y] = '☺';
+		if (map[this.pos_x][this.pos_y] == 'B'){
+			map[this.pos_x][this.pos_y] = 'B';
+			this.pos_x += this.dx;
+			this.pos_y += this.dy;
+			map[this.pos_x][this.pos_y] = '☺';
+		}
+		else {
+			map[this.pos_x][this.pos_y] = ' ';
+			this.pos_x += this.dx;
+			this.pos_y += this.dy;
+			map[this.pos_x][this.pos_y] = '☺';
+		}
 		display();
 	}
 	// plant_bomb: function() {
@@ -103,21 +111,44 @@ function plant_bomb(pos_x, pos_y) {
 		map[pos_x][pos_y] = 'B';
 		display();
 		var explode = setTimeout (function() {
-			map[pos_x][pos_y] = 'X';
+			map[pos_x][pos_y] = 'O';
 			for (var i = 1; i <= power; i++){
 				if (brick.indexOf(map[pos_x + i][pos_y + 0]) < 0){
 					map[pos_x+i][pos_y] = 'X';
 				}
+				else{
+					break;
+				}
+			}
+			for (var i = 1; i <= power; i++){
 				if (brick.indexOf(map[pos_x - i][pos_y + 0]) < 0){
 					map[pos_x-i][pos_y] = 'X';
 				}
+				else{
+					break;
+				}
+			}
+			for (var i = 1; i <= power; i++){
 				if (brick.indexOf(map[pos_x + 0][pos_y + i]) < 0){
 					map[pos_x][pos_y+i] = 'X';
 				}
+				else{
+					break;
+				}
+			}
+			for (var i = 1; i <= power; i++){
 				if (brick.indexOf(map[pos_x + 0][pos_y - i]) < 0){
 					map[pos_x][pos_y-i] = 'X';
 				}
+				else{
+					break;
+				}
 			}
+
+			if (map[bbman.pos_x][bbman.pos_y] == 'X'){
+				setTimeout(function(){ alert("YOU LOSE!!!"); }, 500);
+			}
+			
 			display();
 			var over = setTimeout(function() {
 				map[pos_x][pos_y] = ' ';
@@ -125,20 +156,38 @@ function plant_bomb(pos_x, pos_y) {
 					if (brick.indexOf(map[pos_x + i][pos_y + 0]) < 0){
 						map[pos_x+i][pos_y] = ' ';
 					}
+					else{
+						break;
+					}
+				}
+				for (var i = 1; i <= power; i++){
 					if (brick.indexOf(map[pos_x - i][pos_y + 0]) < 0){
 						map[pos_x-i][pos_y] = ' ';
 					}
+					else{
+						break;
+					}
+				}
+				for (var i = 1; i <= power; i++){
 					if (brick.indexOf(map[pos_x + 0][pos_y + i]) < 0){
 						map[pos_x][pos_y+i] = ' ';
 					}
+					else{
+						break;
+					}
+				}
+				for (var i = 1; i <= power; i++){
 					if (brick.indexOf(map[pos_x + 0][pos_y - i]) < 0){
 						map[pos_x][pos_y-i] = ' ';
 					}
+					else{
+						break;
+					}
 				}
 				display();
-			}, 500);
+			}, 1000);
 			clearTimeout(explode);
-		}, 2000);
+		}, 1600);
 		
 	}
 
@@ -160,15 +209,6 @@ function update_bomb() {
 
 function start() {
 	display();
-
-	//  bbman move
-	// while (1){
-	// 	if (brick.indexOf(map[ bbman.pos_x +  bbman.dx][ bbman.pos_y +  bbman.dy]) < 0){
-	// 		 bbman.move();
-	// 	}
-	// 	// check();
-	// }
-
 	// ghost move
 	// var time2 = setInterval(loopGhost, 300);
 	// function loopGhost() {
@@ -194,25 +234,25 @@ function start() {
 	// 	    		ghost.dx = 1;
 	// 	    		ghost.dy = 0;
 	// 	    		break;
- //    		}
+ 	//    		}
 	// 	}
 	// 	check();
 	// }
 
-	// function check() {
-	// 	if ( bbman.pos_x == ghost.pos_x &&  bbman.pos_y == ghost.pos_y) {
-	// 		clearInterval(time1);
-	// 		clearInterval(time2);
-	// 		map[ bbman.pos_x][ bbman.pos_y] = '۩';
-	// 		display();
-	// 	}
-	// 	if (count == maxpoint) {
-	// 		clearInterval(time1);
-	// 		clearInterval(time2);
-	// 		setTimeout(function(){ alert("YOU WIN! FUCK!!!"); }, 500);
-	// 	}
-	// }
-	plant_bomb(6,8);
+	function check() {
+		if ( map[bbman.pos_x][bbman.pos_y] == 'X') {
+			clearInterval(timeman);
+			// clearInterval(time2);
+			// map[ bbman.pos_x][ bbman.pos_y] = '۩';
+			display();
+			setTimeout(function(){ alert("YOU LOSE!!!"); }, 500);
+		}
+		// if (count == maxpoint) {
+		// 	clearInterval(time1);
+		// 	clearInterval(time2);
+		// 	setTimeout(function(){ alert("YOU WIN! FUCK!!!"); }, 500);
+		// }
+	}
 }
 
 function display() {
