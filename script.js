@@ -70,25 +70,6 @@ var  bbman = {
 		}
 		display();
 	}
-	// plant_bomb: function() {
-	// 	bomb_map[this.pos_x][this.pos_y] = 1;
-	// 	update_bomb();
-	// 	display();
-	// 	var explode = setTimeout (function() {
-	// 		bomb_map[this.pos_x][this.pos_y] = 0.5;
-	// 		bomb_map[this.pos_x+1][this.pos_y] = 0.5;
-	// 		bomb_map[this.pos_x-1][this.pos_y] = 0.5;
-	// 		bomb_map[this.pos_x][this.pos_y+1] = 0.5;
-	// 		bomb_map[this.pos_x][this.pos_y-1] = 0.5;
-	// 		update_bomb();
-	// 		display();
-	// 		clearTimeout(explode);
-	// 	}, 2000);
-	// 	bomb_map[this.pos_x][this.pos_y] = 0;
-	// 	update_bomb();
-	// 	display();
-		
-	// }
 };
 
 var ghost = {
