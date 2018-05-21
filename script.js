@@ -4,6 +4,8 @@ var point = document.getElementById("point");
 var maxpoint = 110;
 var count = 0;
 var power = 5; 
+var max_bomb = 0;
+var count_bomb = 0;
 var brick = "╬╩╦╣╠╝╚╗╔║═B";
 
 var map = [
@@ -145,11 +147,11 @@ function plant_bomb(pos_x, pos_y) {
 				}
 			}
 
-			if (map[bbman.pos_x][bbman.pos_y] == 'X'){
+			if (map[bbman.pos_x][bbman.pos_y] == 'X' || map[bbman.pos_x][bbman.pos_y] == 'O'){
 				setTimeout(function(){ alert("YOU LOSE!!!"); }, 500);
 			}
-			
 			display();
+
 			var over = setTimeout(function() {
 				map[pos_x][pos_y] = ' ';
 				for (var i = 1; i <= power; i++){
@@ -313,7 +315,13 @@ document.addEventListener("keydown", (event) => {
 			 }
     		break;
     	case 32:
-    		plant_bomb(bbman.pos_x, bbman.pos_y);
+    		if (count_bomb > max_bomb){
+    			count_bomb = 0;
+    		}
+    		else {
+    			plant_bomb(bbman.pos_x, bbman.pos_y);
+    			count_bomb ++;
+    		}	
     		break;
     }
 });
