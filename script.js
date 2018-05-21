@@ -62,6 +62,12 @@ var  bbman = {
 			this.pos_y += this.dy;
 			map[this.pos_x][this.pos_y] = '☺';
 		}
+		else if (map[this.pos_x][this.pos_y] == 'D'){
+			map[this.pos_x][this.pos_y] = 'D';
+			this.pos_x += this.dx;
+			this.pos_y += this.dy;
+			map[this.pos_x][this.pos_y] = '☺';
+		}
 		else {
 			map[this.pos_x][this.pos_y] = ' ';
 			this.pos_x += this.dx;
@@ -88,12 +94,26 @@ var ghost = {
 	}
 };
 
-function plant_bomb(pos_x, pos_y) {
-		var x = pos_x;
-		var y = pos_y;
-		map[pos_x][pos_y] = 'B';
+function plant_bomb(pos_x, pos_y) {	
+		map[pos_x][pos_y] = 'B';					//bomb blinking
 		display();
-		var explode = setTimeout (function() {
+		var countX = 0;
+		var loopX = setInterval(function(){
+			if (countX > 4){
+				clearInterval(loopX);
+			}
+			if (countX % 2 == 0){
+				map[pos_x][pos_y] = 'D';
+					display();
+				}
+				else if (countX % 2 != 0){
+					map[pos_x][pos_y] = 'B';
+					display();
+				}
+				countX++;
+		},200);
+			
+		var explode = setTimeout (function() {		//bomb exploding and vanishing
 			map[pos_x][pos_y] = 'O';
 			for (var i = 1; i <= power; i++){
 				if (brick.indexOf(map[pos_x + i][pos_y + 0]) < 0){
@@ -130,7 +150,6 @@ function plant_bomb(pos_x, pos_y) {
 
 			if (map[bbman.pos_x][bbman.pos_y] == 'X' || map[bbman.pos_x][bbman.pos_y] == 'O'){
 				// setTimeout(function(){ alert("YOU LOSE!!!"); }, 500);
-				console.log(222222222);
 			}
 			display();
 
@@ -169,16 +188,8 @@ function plant_bomb(pos_x, pos_y) {
 					}
 				}
 				display();
-			}, 100);
-			// clearTimeout(explode);
-		}, 1600);
-		
-		var check = setInterval(function() {
-			if (map[bbman.pos_x][bbman.pos_y] == 'X' || map[bbman.pos_x][bbman.pos_y] == 'O'){
-				// setTimeout(function(){ alert("YOU LOSE!!!"); }, 500);
-				console.log(222222222);
-				clearInterval(check);
-			}
+			}, 200);
+			clearTimeout(explode);
 		}, 1600);
 	}
 
@@ -231,14 +242,14 @@ function start() {
 }
 
 function display() {
-	output = '';
-	for (var i = 0; i < 15; i++) {
-		for (var j = 0; j < 15; j++) {
-			output += map[i][j];
-		}
-		output += '<br>';
-	}	
-	nam.innerHTML = output;
+		output = '';
+		for (var i = 0; i < 15; i++) {
+			for (var j = 0; j < 15; j++) {
+				output += map[i][j];
+			}
+			output += '<br>';
+		}	
+		nam.innerHTML = output;
 }
 
 function display_bomb() {
@@ -252,51 +263,60 @@ function display_bomb() {
 	nam.innerHTML = output;
 }
 
+setTimeout (function() {
+
+}, 1400);
 document.addEventListener("keydown", (event) => {
-    switch (event.keyCode) {
-    	case 39:
-    		 bbman.dx = 0;
-    		 bbman.dy = 1;
-    		 if (brick.indexOf(map[bbman.pos_x + bbman.dx][bbman.pos_y + bbman.dy]) < 0){
-    		 	bbman.move(bbman.pos_x,bbman.pos_y);
-    		 	display();
-			 }
-    		 
-    		break;
-    	case 37:
-    		 bbman.dx = 0;
-    		 bbman.dy = -1;
-    		 if (brick.indexOf(map[bbman.pos_x + bbman.dx][bbman.pos_y + bbman.dy]) < 0){
-    		 	bbman.move(bbman.pos_x,bbman.pos_y);
-    		 	display();
-			 }
-    		break;
-    	case 38:
-    		 bbman.dx = -1;
-    		 bbman.dy = 0;
-    		 if (brick.indexOf(map[bbman.pos_x + bbman.dx][bbman.pos_y + bbman.dy]) < 0){
-    		 	bbman.move(bbman.pos_x,bbman.pos_y);
-    		 	display();
-			 }
-    		break;
-    	case 40:
-    		 bbman.dx = 1;
-    		 bbman.dy = 0;
-    		 if (brick.indexOf(map[bbman.pos_x + bbman.dx][bbman.pos_y + bbman.dy]) < 0){
-    		 	bbman.move(bbman.pos_x,bbman.pos_y);
-    		 	display();
-			 }
-    		break;
-    	case 32:
-    		if (count_bomb > max_bomb){
-    			count_bomb = 0;
-    		}
-    		else {
-    			plant_bomb(bbman.pos_x, bbman.pos_y);
-    			count_bomb ++;
-    		}	
-    		break;
-    }
+	if (event.repeat == true){      // event repeat
+		
+	}
+	else {
+		switch (event.keyCode) {
+	    	case 39:
+	    		 bbman.dx = 0;
+	    		 bbman.dy = 1;
+	    		 if (brick.indexOf(map[bbman.pos_x + bbman.dx][bbman.pos_y + bbman.dy]) < 0){
+	    		 	bbman.move(bbman.pos_x,bbman.pos_y);
+	    		 	display();
+				 }
+	    		break;
+	    	case 37:
+	    		 bbman.dx = 0;
+	    		 bbman.dy = -1;
+	    		 if (brick.indexOf(map[bbman.pos_x + bbman.dx][bbman.pos_y + bbman.dy]) < 0){
+	    		 	bbman.move(bbman.pos_x,bbman.pos_y);
+	    		 	display();
+				 }
+	    		break;
+	    	case 38:
+	    		 bbman.dx = -1;
+	    		 bbman.dy = 0;
+	    		 if (brick.indexOf(map[bbman.pos_x + bbman.dx][bbman.pos_y + bbman.dy]) < 0){
+	    		 	bbman.move(bbman.pos_x,bbman.pos_y);
+	    		 	display();
+				 }
+	    		break;
+	    	case 40:
+	    		 bbman.dx = 1;
+	    		 bbman.dy = 0;
+	    		 if (brick.indexOf(map[bbman.pos_x + bbman.dx][bbman.pos_y + bbman.dy]) < 0){
+	    		 	bbman.move(bbman.pos_x,bbman.pos_y);
+	    		 	display();
+				 }
+	    		break;
+	    	case 32:
+	    		if (count_bomb > max_bomb){
+
+	    		}
+	    		else {
+	    			plant_bomb(bbman.pos_x, bbman.pos_y);
+	    			count_bomb ++;
+	    		}	
+	    		count_bomb = 0;
+	    		break;
+	    }
+	}
+    
 });
 
 
