@@ -129,7 +129,8 @@ function plant_bomb(pos_x, pos_y) {
 			}
 
 			if (map[bbman.pos_x][bbman.pos_y] == 'X' || map[bbman.pos_x][bbman.pos_y] == 'O'){
-				setTimeout(function(){ alert("YOU LOSE!!!"); }, 500);
+				// setTimeout(function(){ alert("YOU LOSE!!!"); }, 500);
+				console.log(222222222);
 			}
 			display();
 
@@ -168,27 +169,18 @@ function plant_bomb(pos_x, pos_y) {
 					}
 				}
 				display();
-			}, 1000);
-			clearTimeout(explode);
+			}, 100);
+			// clearTimeout(explode);
 		}, 1600);
 		
+		var check = setInterval(function() {
+			if (map[bbman.pos_x][bbman.pos_y] == 'X' || map[bbman.pos_x][bbman.pos_y] == 'O'){
+				// setTimeout(function(){ alert("YOU LOSE!!!"); }, 500);
+				console.log(222222222);
+				clearInterval(check);
+			}
+		}, 1600);
 	}
-
-function update_bomb() {
-	for (var i = 0; i < 15; i++) {
-		for (var j = 0; j < 15; j++) {
-			if (bomb_map[i][j] == 1){
-				map[i][j] = 'B';
-			}
-			else if (bomb_map[i][j] == 0.5){
-				map[i][j] = 'X';
-			}
-			else if (bomb_map[i][j] == ' ' ){
-				map[i][j] = ' ';
-			}
-		}
-	}	
-}
 
 function start() {
 	display();
@@ -222,20 +214,20 @@ function start() {
 	// 	check();
 	// }
 
-	function check() {
-		if ( map[bbman.pos_x][bbman.pos_y] == 'X') {
-			clearInterval(timeman);
-			// clearInterval(time2);
-			// map[ bbman.pos_x][ bbman.pos_y] = '۩';
-			display();
-			setTimeout(function(){ alert("YOU LOSE!!!"); }, 500);
-		}
+	// function check() {
+	// 	if ( map[bbman.pos_x][bbman.pos_y] == 'X') {
+	// 		clearInterval(timeman);
+	// 		// clearInterval(time2);
+	// 		// map[ bbman.pos_x][ bbman.pos_y] = '۩';
+	// 		display();
+	// 		setTimeout(function(){ alert("YOU LOSE!!!"); }, 500);
+	// 	}
 		// if (count == maxpoint) {
 		// 	clearInterval(time1);
 		// 	clearInterval(time2);
 		// 	setTimeout(function(){ alert("YOU WIN! FUCK!!!"); }, 500);
 		// }
-	}
+	// }
 }
 
 function display() {
