@@ -6,7 +6,7 @@ var count = 0;
 var power = 5; 
 var max_bomb = 0;
 var count_bomb = 0;
-var brick = "╬╩╦╣╠╝╚╗╔║═B";
+var brick = "╬╩╦╣╠╝╚╗╔║═BD";
 
 var map = [
 	['╔','═','═','═','═','═','═','═','═','═','═','═','═','═','╗'],
@@ -148,6 +148,7 @@ function plant_bomb(pos_x, pos_y) {
 				}
 			}
 
+			var test = 0;
 			if (map[bbman.pos_x][bbman.pos_y] == 'X' || map[bbman.pos_x][bbman.pos_y] == 'O'){
 				// setTimeout(function(){ alert("YOU LOSE!!!"); }, 500);
 			}
@@ -226,18 +227,17 @@ function start() {
 	// }
 
 	// function check() {
-	// 	if ( map[bbman.pos_x][bbman.pos_y] == 'X') {
-	// 		clearInterval(timeman);
+	// 	if ( map[bbman.pos_x][bbman.pos_y] == 'X' || map[bbman.pos_x][bbman.pos_y] == 'O') {
 	// 		// clearInterval(time2);
 	// 		// map[ bbman.pos_x][ bbman.pos_y] = '۩';
 	// 		display();
 	// 		setTimeout(function(){ alert("YOU LOSE!!!"); }, 500);
 	// 	}
-		// if (count == maxpoint) {
-		// 	clearInterval(time1);
-		// 	clearInterval(time2);
-		// 	setTimeout(function(){ alert("YOU WIN! FUCK!!!"); }, 500);
-		// }
+	// 	if (count == maxpoint) {
+	// 		clearInterval(time1);
+	// 		clearInterval(time2);
+	// 		setTimeout(function(){ alert("YOU WIN! FUCK!!!"); }, 500);
+	// 	}
 	// }
 }
 
