@@ -4,7 +4,7 @@ var point = document.getElementById("point");
 var maxpoint = 110;
 var count = 0;
 var power = 5; 
-var max_bomb = 0;
+var max_bomb = 3;
 var count_bomb = 0;
 var brick = "╬╩╦╣╠╝╚╗╔║═B";
 
@@ -95,6 +95,7 @@ var ghost = {
 };
 
 function plant_bomb(pos_x, pos_y) {	
+		count_bomb ++;
 		map[pos_x][pos_y] = 'B';					//bomb blinking
 		display();
 		var countX = 0;
@@ -112,7 +113,7 @@ function plant_bomb(pos_x, pos_y) {
 				}
 				countX++;
 		},200);
-			
+
 		var explode = setTimeout (function() {		//bomb exploding and vanishing
 			map[pos_x][pos_y] = 'O';
 			for (var i = 1; i <= power; i++){
@@ -189,9 +190,10 @@ function plant_bomb(pos_x, pos_y) {
 				}
 				display();
 			}, 200);
-			clearTimeout(explode);
-		}, 1600);
-	}
+		clearTimeout(explode);
+		count_bomb--;
+	}, 1600);
+}
 
 function start() {
 	display();
@@ -305,14 +307,13 @@ document.addEventListener("keydown", (event) => {
 				 }
 	    		break;
 	    	case 32:
-	    		if (count_bomb > max_bomb){
+	    		console.log(count_bomb);
+	    		if (count_bomb >= max_bomb){
 
 	    		}
 	    		else {
 	    			plant_bomb(bbman.pos_x, bbman.pos_y);
-	    			count_bomb ++;
 	    		}	
-	    		count_bomb = 0;
 	    		break;
 	    }
 	}
